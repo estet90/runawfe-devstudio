@@ -22,30 +22,20 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.compiler.source>1.7</maven.compiler.source>
 		<maven.compiler.target>1.7</maven.compiler.target>
-		<tycho.version>0.20.0</tycho.version>
+		<tycho.version>1.0.0</tycho.version>
 	</properties>
 
 	<repositories>
 		<repository>
-			<id>indigo</id>
-			<url>http://download.eclipse.org/releases/indigo</url>
+			<id>oxygen</id>
+			<url>http://download.eclipse.org/releases/oxygen</url>
 			<layout>p2</layout>
 		</repository>
-		<repository>
-			<id>graphiti</id>
-			<url>http://archive.eclipse.org/graphiti/updates/0.9.1/</url>
-			<layout>p2</layout>
-		</repository>
-		<repository>
-			<id>emf-store</id>
-			<url>http://download.eclipse.org/emf-store/releases/100/</url>
-			<layout>p2</layout>
-		</repository>
-		<repository>
+		<!-- repository>
 			<id>babel</id>
 			<url>http://archive.eclipse.org/technology/babel/update-site/R0.11.1/indigo/</url>
 			<layout>p2</layout>
-		</repository>
+		</repository -->
 	</repositories>
 
 	<build>

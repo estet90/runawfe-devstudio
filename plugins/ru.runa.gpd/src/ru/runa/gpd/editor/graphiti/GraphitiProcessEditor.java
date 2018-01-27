@@ -53,7 +53,7 @@ public class GraphitiProcessEditor extends ProcessEditorBase {
     public void propertyChange(PropertyChangeEvent evt) {
         super.propertyChange(evt);
         if (PropertyNames.PROPERTY_SHOW_ACTIONS.equals(evt.getPropertyName())) {
-            getDiagramEditorPage().refreshPalette();
+            //getDiagramEditorPage().refreshPalette();
             getDiagramEditorPage().refreshActions();
             //getDiagramEditorPage().getContentEditPart().refresh();
             //getRootFigure().getUpdateManager().performUpdate();

@@ -149,13 +149,13 @@ public class DiagramEditorPage extends DiagramEditor2 implements PropertyChangeL
         return editor;
     }
 
-    @Override
-    protected ContextMenuProvider createContextMenuProvider() {
-        return new DiagramContextMenuProvider(getGraphicalViewer(), getActionRegistry(), getDiagramTypeProvider());
-    }
+    
+    // TODO graphiti update @Override
+    //protected ContextMenuProvider createContextMenuProvider() {
+        //return new DiagramContextMenuProvider(getGraphicalViewer(), getActionRegistry(), getDiagramTypeProvider());
+    //}
 
-    @Override
-    protected KeyHandler getCommonKeyHandler() {
+    public KeyHandler getKeyHandler() {
         if (keyHandler == null) {
             keyHandler = ((ProcessEditorContributor) getEditor().getEditorSite().getActionBarContributor()).createKeyHandler(getActionRegistry());
         }
@@ -201,7 +201,8 @@ public class DiagramEditorPage extends DiagramEditor2 implements PropertyChangeL
 
     @Override
     public void doSave(IProgressMonitor monitor) {
-        refresh();
+    	// TODO graphiti update 
+        //refresh();
     }
 
     public void refreshActions() {
@@ -223,7 +224,8 @@ public class DiagramEditorPage extends DiagramEditor2 implements PropertyChangeL
                 }
             }
         }
-        refresh();
+     // TODO graphiti update 
+        //refresh();
     }
 
     private void refreshActions(ContainerShape containerShape) {
@@ -352,8 +354,8 @@ public class DiagramEditorPage extends DiagramEditor2 implements PropertyChangeL
     }
 
     @Override
-    protected void initActionRegistry(ZoomManager zoomManager) {
-        super.initActionRegistry(zoomManager);
+    protected void initializeActionRegistry() {
+    	super.initializeActionRegistry();
         GEFActionBarContributor.createCustomGEFActions(getActionRegistry(), editor, getSelectionActions());
     }
 

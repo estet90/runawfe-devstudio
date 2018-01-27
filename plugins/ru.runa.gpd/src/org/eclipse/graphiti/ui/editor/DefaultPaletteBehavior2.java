@@ -5,12 +5,12 @@ import org.eclipse.graphiti.ui.internal.editor.GFPaletteRoot2;
 
 public class DefaultPaletteBehavior2 extends DefaultPaletteBehavior {
 
-    public DefaultPaletteBehavior2(DiagramEditor diagramEditor) {
-        super(diagramEditor);
+    public DefaultPaletteBehavior2(DiagramBehavior diagramBehavior) {
+        super(diagramBehavior);
     }
 
     protected PaletteRoot createPaletteRoot() {
-        return new GFPaletteRoot2(diagramEditor.getDiagramTypeProvider());
+        return new GFPaletteRoot2(diagramBehavior.getDiagramTypeProvider());
     }
 
 }

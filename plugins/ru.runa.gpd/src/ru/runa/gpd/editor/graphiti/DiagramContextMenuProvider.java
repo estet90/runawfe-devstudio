@@ -9,6 +9,7 @@ import org.eclipse.graphiti.dt.IDiagramTypeProvider;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.ui.editor.DiagramEditor;
 import org.eclipse.graphiti.ui.editor.DiagramEditorContextMenuProvider;
+import org.eclipse.graphiti.ui.platform.IConfigurationProvider;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.viewers.ISelectionProvider;
 import org.eclipse.ui.internal.IObjectActionContributor;
@@ -17,7 +18,8 @@ import org.eclipse.ui.internal.ObjectActionContributorManager;
 import ru.runa.gpd.editor.StructuredSelectionProvider;
 
 public class DiagramContextMenuProvider extends DiagramEditorContextMenuProvider {
-    private final IDiagramTypeProvider diagramTypeProvider;
+	private final IDiagramTypeProvider diagramTypeProvider;
+    private final DiagramEditor diagramEditor;
 
     /**
      * @param viewer
@@ -29,9 +31,10 @@ public class DiagramContextMenuProvider extends DiagramEditorContextMenuProvider
      * @param configurationProvider
      *            the configuration provider
      */
-    public DiagramContextMenuProvider(EditPartViewer viewer, ActionRegistry registry, IDiagramTypeProvider diagramTypeProvider) {
-        super(viewer, registry, diagramTypeProvider);
-        this.diagramTypeProvider = diagramTypeProvider;
+    public DiagramContextMenuProvider(EditPartViewer viewer, ActionRegistry registry, IConfigurationProvider configurationProvider, DiagramEditor diagramEditor) {
+        super(viewer, registry, configurationProvider);
+        this.diagramTypeProvider = configurationProvider.getDiagramTypeProvider();
+        this.diagramEditor = diagramEditor;
     }
 
     @Override
@@ -70,6 +73,6 @@ public class DiagramContextMenuProvider extends DiagramEditorContextMenuProvider
     }
 
     private DiagramEditor getEditor() {
-        return (DiagramEditor) getDiagramTypeProvider().getDiagramEditor();
+        return diagramEditor;
     }
 }

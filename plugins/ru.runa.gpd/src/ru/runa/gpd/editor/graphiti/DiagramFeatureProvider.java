@@ -2,6 +2,7 @@ package ru.runa.gpd.editor.graphiti;
 
 import java.util.List;
 
+import org.eclipse.core.resources.IFile;
 import org.eclipse.graphiti.dt.IDiagramTypeProvider;
 import org.eclipse.graphiti.features.IAddBendpointFeature;
 import org.eclipse.graphiti.features.IAddFeature;
@@ -33,6 +34,7 @@ import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.ui.features.DefaultFeatureProvider;
 
 import ru.runa.gpd.ProcessCache;
+import ru.runa.gpd.editor.ProcessEditorBase;
 import ru.runa.gpd.editor.graphiti.add.AddTransitionBendpointFeature;
 import ru.runa.gpd.editor.graphiti.update.BOUpdateContext;
 import ru.runa.gpd.editor.graphiti.update.DeleteElementFeature;
@@ -67,12 +69,16 @@ public class DiagramFeatureProvider extends DefaultFeatureProvider {
     }
 
     public ProcessDefinition getCurrentProcessDefinition() {
-        return ProcessCache.getProcessDefinition(IOUtils.getCurrentFile());
+    	IFile file = IOUtils.getCurrentFile();
+    	if (file != null) {
+            return ProcessCache.getProcessDefinition(file);
+    	}
+    	return ProcessEditorBase.LAST_PROCESS_DEFINITION;
     }
 
     @Override
     public ICreateFeature[] getCreateFeatures() {
-        ProcessDefinition processDefinition = ((DiagramEditorPage) getDiagramTypeProvider().getDiagramEditor()).getDefinition();
+        ProcessDefinition processDefinition = getCurrentProcessDefinition();
         List<ICreateFeature> list = Lists.newArrayList();
         for (NodeTypeDefinition definition : NodeRegistry.getDefinitions()) {
             if (definition.getGraphitiEntry() != null && !Strings.isNullOrEmpty(definition.getBpmnElementName())) {

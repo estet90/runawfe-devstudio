@@ -61,7 +61,8 @@ import ru.runa.gpd.util.IOUtils;
 import ru.runa.gpd.util.WorkspaceOperations;
 
 public abstract class ProcessEditorBase extends MultiPageEditorPart implements ISelectionListener, IResourceChangeListener, PropertyChangeListener {
-
+	// TODO graphiti update 
+	public static ProcessDefinition LAST_PROCESS_DEFINITION;
     protected ProcessDefinition definition;
     protected IFile definitionFile;
     protected GraphicalEditor graphPage;
@@ -82,7 +83,7 @@ public abstract class ProcessEditorBase extends MultiPageEditorPart implements I
         definition = ProcessCache.getProcessDefinition(definitionFile);
         definition.setDirty(false);
         definition.addPropertyChangeListener(this);
-
+        LAST_PROCESS_DEFINITION = definition;
         setPartName(definition.getName());
     }
 

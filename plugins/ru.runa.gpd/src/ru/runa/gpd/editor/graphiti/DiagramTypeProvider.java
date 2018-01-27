@@ -4,6 +4,7 @@ import org.eclipse.graphiti.dt.AbstractDiagramTypeProvider;
 import org.eclipse.graphiti.tb.IToolBehaviorProvider;
 
 public class DiagramTypeProvider extends AbstractDiagramTypeProvider {
+	public static final String ID = "ru.runa.wfe.GraphitiTypeProvider";
     private IToolBehaviorProvider[] toolBehaviorProviders;
 
     public DiagramTypeProvider() {

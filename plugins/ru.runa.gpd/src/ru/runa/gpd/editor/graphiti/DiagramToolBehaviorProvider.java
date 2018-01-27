@@ -131,7 +131,7 @@ public class DiagramToolBehaviorProvider extends DefaultToolBehaviorProvider {
     }
 
     @Override
-    public String getToolTip(GraphicsAlgorithm ga) {
+    public Object getToolTip(GraphicsAlgorithm ga) {
         PictogramElement pe = ga.getPictogramElement();
         if (ga instanceof Polyline) {
             Object element = getFeatureProvider().getBusinessObjectForPictogramElement(pe);
