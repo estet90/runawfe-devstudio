@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?pde version="3.5"?>
 
-<product name="RunaWFE Developer Studio" uid="product" id="ru.runa.gpd.app.product" application="ru.runa.gpd.application" version="4.2.0" useFeatures="false" includeLaunchers="false">
+<product name="RunaWFE Developer Studio" uid="product" id="ru.runa.gpd.app.product" application="ru.runa.gpd.application" version="4.2.0" useFeatures="false" includeLaunchers="true">
 
    <aboutInfo>
       <text>
@@ -35,18 +35,16 @@
       </win>
    </launcher>
 
-
    <vm>
    </vm>
-
 
    <plugins>
       <plugin id="com.ibm.icu"/>
       <plugin id="javax.annotation"/>
       <plugin id="javax.inject"/>
-      <plugin id="javax.xml"/>
       <plugin id="org.apache.batik.css"/>
       <plugin id="org.apache.batik.util"/>
+      <plugin id="org.apache.batik.util.gui"/>
       <plugin id="org.apache.commons.jxpath"/>
       <plugin id="org.apache.felix.gogo.command"/>
       <plugin id="org.apache.felix.gogo.runtime"/>
@@ -112,17 +110,19 @@
       <plugin id="org.eclipse.equinox.p2.metadata.repository"/>
       <plugin id="org.eclipse.equinox.p2.repository"/>
       <plugin id="org.eclipse.equinox.preferences"/>
+      <plugin id="org.eclipse.equinox.region" fragment="true"/>
       <plugin id="org.eclipse.equinox.registry"/>
       <plugin id="org.eclipse.equinox.security"/>
       <plugin id="org.eclipse.equinox.security.linux.x86_64" fragment="true"/>
+      <plugin id="org.eclipse.equinox.supplement"/>
+      <plugin id="org.eclipse.equinox.transforms.hook" fragment="true"/>
+      <plugin id="org.eclipse.equinox.weaving.hook" fragment="true"/>
       <plugin id="org.eclipse.gef"/>
       <plugin id="org.eclipse.graphiti"/>
       <plugin id="org.eclipse.graphiti.mm"/>
       <plugin id="org.eclipse.graphiti.pattern"/>
       <plugin id="org.eclipse.graphiti.ui"/>
       <plugin id="org.eclipse.help"/>
-      <plugin id="org.eclipse.jdt.compiler.apt" fragment="true"/>
-      <plugin id="org.eclipse.jdt.compiler.tool" fragment="true"/>
       <plugin id="org.eclipse.jdt.core"/>
       <plugin id="org.eclipse.jdt.core.manipulation"/>
       <plugin id="org.eclipse.jdt.debug"/>
@@ -157,6 +157,9 @@
       <plugin id="org.eclipse.ui.workbench.texteditor"/>
       <plugin id="org.tukaani.xz"/>
       <plugin id="org.w3c.css.sac"/>
+      <plugin id="org.w3c.dom.events"/>
+      <plugin id="org.w3c.dom.smil"/>
+      <plugin id="org.w3c.dom.svg"/>
       <plugin id="ru.runa.gpd"/>
       <plugin id="ru.runa.gpd.app"/>
       <plugin id="ru.runa.gpd.connector.wfe.ws"/>
