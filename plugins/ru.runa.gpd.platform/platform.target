@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<?pde version="3.8"?><target name="platform" sequenceNumber="6">
+<?pde version="3.8"?><target name="platform" sequenceNumber="7">
 <locations>
 <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
 <unit id="org.eclipse.equinox.sdk.feature.group" version="3.13.2.v20171108-1834"/>
@@ -9,6 +9,8 @@
 </location>
 <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
 <unit id="org.eclipse.babel.nls_eclipse_ru.feature.group" version="4.7.0.v20171231020002"/>
+<unit id="org.eclipse.babel.nls_modeling.emf_ru.feature.group" version="4.7.0.v20171231020002"/>
+<unit id="org.eclipse.babel.nls_modeling.graphiti_ru.feature.group" version="4.7.0.v20171231020002"/>
 <unit id="org.eclipse.babel.nls_tools.gef_ru.feature.group" version="4.7.0.v20171231020002"/>
 <repository location="http://download.eclipse.org/technology/babel/update-site/R0.15.1/oxygen"/>
 </location>
