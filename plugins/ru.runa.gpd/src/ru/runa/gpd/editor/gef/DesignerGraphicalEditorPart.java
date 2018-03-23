@@ -1,6 +1,8 @@
 package ru.runa.gpd.editor.gef;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.gef.ContextMenuProvider;
@@ -33,6 +35,7 @@ import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.actions.ActionFactory;
+import org.eclipse.ui.internal.IObjectActionContributor;
 import org.eclipse.ui.internal.ObjectActionContributorManager;
 
 import ru.runa.gpd.editor.ProcessEditorBase;
@@ -178,10 +181,8 @@ public class DesignerGraphicalEditorPart extends GraphicalEditorWithFlyoutPalett
                 graphElement = editor.getDefinition();
             }
             ISelectionProvider selectionProvider = new StructuredSelectionProvider(graphElement);
-            ObjectActionContributorManager.getManager().contributeObjectActions(editor, menu, selectionProvider);
-            // ObjectActionContributorManager.getManager().contributeObjectActions(editor,
-            // menu, selectionProvider, new
-            // HashSet<IObjectActionContributor>());
+            Set<IObjectActionContributor> alreadyContributed = new HashSet<>();
+            ObjectActionContributorManager.getManager().contributeObjectActions(editor, menu, selectionProvider, alreadyContributed);
         }
     }
 

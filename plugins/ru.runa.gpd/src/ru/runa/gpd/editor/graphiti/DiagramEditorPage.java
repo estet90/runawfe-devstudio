@@ -33,7 +33,8 @@ import org.eclipse.graphiti.mm.pictograms.Diagram;
 import org.eclipse.graphiti.mm.pictograms.PictogramElement;
 import org.eclipse.graphiti.mm.pictograms.Shape;
 import org.eclipse.graphiti.services.Graphiti;
-import org.eclipse.graphiti.ui.editor.DiagramEditor2;
+import org.eclipse.graphiti.ui.editor.DiagramBehavior;
+import org.eclipse.graphiti.ui.editor.DiagramEditor;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorSite;
@@ -41,7 +42,6 @@ import org.eclipse.ui.PartInitException;
 
 import ru.runa.gpd.PropertyNames;
 import ru.runa.gpd.editor.ProcessEditorBase;
-import ru.runa.gpd.editor.ProcessEditorContributor;
 import ru.runa.gpd.editor.gef.GEFActionBarContributor;
 import ru.runa.gpd.editor.graphiti.update.BOUpdateContext;
 import ru.runa.gpd.lang.model.Action;
@@ -55,10 +55,9 @@ import ru.runa.gpd.lang.model.Transition;
 
 import com.google.common.base.Objects;
 
-public class DiagramEditorPage extends DiagramEditor2 implements PropertyChangeListener {
+public class DiagramEditorPage extends DiagramEditor implements PropertyChangeListener {
 
     private final ProcessEditorBase editor;
-    private KeyHandler keyHandler;
 
     public DiagramEditorPage(ProcessEditorBase editor) {
         this.editor = editor;
@@ -68,6 +67,7 @@ public class DiagramEditorPage extends DiagramEditor2 implements PropertyChangeL
     public void init(IEditorSite site, IEditorInput input) throws PartInitException {
         super.init(site, input);
         editor.getDefinition().setDelegatedListener(this);
+        
     }
 
     public ProcessDefinition getDefinition() {
@@ -148,18 +148,10 @@ public class DiagramEditorPage extends DiagramEditor2 implements PropertyChangeL
     public ProcessEditorBase getEditor() {
         return editor;
     }
-
+    
     @Override
-    protected ContextMenuProvider createContextMenuProvider() {
-        return new DiagramContextMenuProvider(getGraphicalViewer(), getActionRegistry(), getDiagramTypeProvider());
-    }
-
-    @Override
-    protected KeyHandler getCommonKeyHandler() {
-        if (keyHandler == null) {
-            keyHandler = ((ProcessEditorContributor) getEditor().getEditorSite().getActionBarContributor()).createKeyHandler(getActionRegistry());
-        }
-        return keyHandler;
+    protected DiagramBehavior createDiagramBehavior() {
+    	return new CustomDiagramBehavior(this);
     }
 
     @Override
@@ -201,9 +193,9 @@ public class DiagramEditorPage extends DiagramEditor2 implements PropertyChangeL
 
     @Override
     public void doSave(IProgressMonitor monitor) {
-        refresh();
+    	getDiagramBehavior().refresh();
     }
-
+    
     public void refreshActions() {
         refreshActions(getDiagramTypeProvider().getDiagram());
     }
@@ -223,7 +215,7 @@ public class DiagramEditorPage extends DiagramEditor2 implements PropertyChangeL
                 }
             }
         }
-        refresh();
+        getDiagramBehavior().refresh();
     }
 
     private void refreshActions(ContainerShape containerShape) {
@@ -352,8 +344,8 @@ public class DiagramEditorPage extends DiagramEditor2 implements PropertyChangeL
     }
 
     @Override
-    protected void initActionRegistry(ZoomManager zoomManager) {
-        super.initActionRegistry(zoomManager);
+    protected void initializeActionRegistry() {
+    	super.initializeActionRegistry();
         GEFActionBarContributor.createCustomGEFActions(getActionRegistry(), editor, getSelectionActions());
     }
 

@@ -56,7 +56,8 @@ public class DiagramActionBarContributor extends ProcessEditorContributor {
         // shall be shown or not
         RetargetAction toggleContextPadAction = new RetargetAction(ToggleContextButtonPadAction.ACTION_ID, ToggleContextButtonPadAction.TEXT,
                 IAction.AS_CHECK_BOX);
-        toggleContextPadAction.setImageDescriptor(GraphitiUi.getImageService().getImageDescriptorForId(IPlatformImageConstants.IMG_TOGGLE_PAD));
+        toggleContextPadAction.setImageDescriptor(GraphitiUi.getImageService().getImageDescriptorForId(
+        		DiagramTypeProvider.ID, IPlatformImageConstants.IMG_TOGGLE_PAD));
         addRetargetAction(toggleContextPadAction);
         // End bug 323351
     }
