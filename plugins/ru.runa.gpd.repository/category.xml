@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<site>
+   <feature url="features/ru.runa.gpd.feature.main_4.3.0.qualifier.jar" id="ru.runa.gpd.feature.main" version="4.3.0.qualifier">
+      <category name="main feature category"/>
+   </feature>
+   <category-def name="main feature category" label="main feature category"/>
+</site>
