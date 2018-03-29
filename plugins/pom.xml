@@ -17,7 +17,7 @@
 		<module>ru.runa.gpd.office</module>
 		<module>ru.runa.gpd.xpdl</module>
 		<module>ru.runa.gpd.platform</module>
-		<module>ru.runa.gpd.feature.main</module>
+		<module>ru.runa.gpd.feature</module>
 		<module>ru.runa.gpd.repository</module>
 	</modules>
 

@@ -7,3 +7,5 @@ tnms-devstudio-pom.xml
 /plugins/ru.runa.spz
 /plugins/ru.runa.spz.maven
 spz-devstudio-pom.xml
+workspace
+.project
