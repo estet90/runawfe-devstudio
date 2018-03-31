@@ -240,6 +240,8 @@
    </plugins>
 
    <features>
+      <feature id="org.eclipse.rcp"/>
+      <feature id="org.eclipse.equinox.p2.user.ui"/>
       <feature id="ru.runa.gpd.feature" version="4.3.0.qualifier"/>
    </features>
 

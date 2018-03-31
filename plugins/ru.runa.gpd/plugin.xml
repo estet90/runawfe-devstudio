@@ -706,6 +706,13 @@
           </visibleWhen>
        </menu>
     </menuContribution>
+    <menuContribution
+            locationURI="menu:org.eclipse.ui.main.menu">
+        <menu
+            id="help"
+            label="%label.menu.help">
+        </menu>
+    </menuContribution>
  </extension>
  <extension
        point="org.eclipse.core.expressions.propertyTesters">
@@ -2402,30 +2409,30 @@
                toolbarPath="normal/processes"
                tooltip="%tooltip.menu.newProject"/>
          <action
-         		class="ru.runa.gpd.ui.action.NewBotTaskAction"
-         		icon="icons/bot_task.gif"
-         		id="ru.runa.gpd.ui.action.newBotTask"
-         		label="%label.menu.newBotTask"
-         		menubarPath="file/newFile/common"
-         		style="push"
+                class="ru.runa.gpd.ui.action.NewBotTaskAction"
+                icon="icons/bot_task.gif"
+                id="ru.runa.gpd.ui.action.newBotTask"
+                label="%label.menu.newBotTask"
+                menubarPath="file/newFile/common"
+                style="push"
                 toolbarPath="normal/bots"
                 tooltip="%tooltip.menu.newBotTask"/>
          <action
-         		class="ru.runa.gpd.ui.action.NewBotAction"
-         		icon="icons/add_bot.gif"
-         		id="ru.runa.gpd.ui.action.newBot"
-         		label="%label.menu.newBot"
-         		menubarPath="file/newFile/common"
-         		style="push"
+                class="ru.runa.gpd.ui.action.NewBotAction"
+                icon="icons/add_bot.gif"
+                id="ru.runa.gpd.ui.action.newBot"
+                label="%label.menu.newBot"
+                menubarPath="file/newFile/common"
+                style="push"
                 toolbarPath="normal/bots"
                 tooltip="%tooltip.menu.newBot"/>
          <action
-         		class="ru.runa.gpd.ui.action.NewBotStationAction"
-         		icon="icons/add_bot_station.gif"
-         		id="ru.runa.gpd.ui.action.newBotStation"
-         		label="%label.menu.newBotStation"
-         		menubarPath="file/newFile/common"
-         		style="push"
+                class="ru.runa.gpd.ui.action.NewBotStationAction"
+                icon="icons/add_bot_station.gif"
+                id="ru.runa.gpd.ui.action.newBotStation"
+                label="%label.menu.newBotStation"
+                menubarPath="file/newFile/common"
+                style="push"
                 toolbarPath="normal/bots"
                 tooltip="%tooltip.menu.newBotStation"/>
          <action
