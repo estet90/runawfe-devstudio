@@ -10,7 +10,7 @@
 		<module>ru.runa.gpd</module>
 		<module>ru.runa.gpd.alfresco</module>
 		<module>ru.runa.gpd.app</module>
-<!-- 		<module>ru.runa.gpd.maven</module> -->
+		<module>ru.runa.gpd.maven</module>
 		<module>ru.runa.gpd.connector.wfe.ws</module>
 		<module>ru.runa.gpd.form.ftl</module>
 		<module>ru.runa.gpd.form.quick</module>
@@ -18,7 +18,6 @@
 		<module>ru.runa.gpd.xpdl</module>
 		<module>ru.runa.gpd.platform</module>
 		<module>ru.runa.gpd.feature</module>
-		<module>ru.runa.gpd.repository</module>
 	</modules>
 
 	<properties>
