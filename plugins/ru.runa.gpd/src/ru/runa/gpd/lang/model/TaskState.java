@@ -125,7 +125,7 @@ public class TaskState extends FormNode implements ActionContainer, ITimed, Sync
     public void setSwimlane(Swimlane swimlane) {
         super.setSwimlane(swimlane);
         if (getRegulationsProperties().isEnabled() && getSwimlaneBotName() != null) {
-            getRegulationsProperties().setEnabled(false);
+            getRegulationsProperties().setEnabledByDefault(false);
         }
     }
 
@@ -399,7 +399,7 @@ public class TaskState extends FormNode implements ActionContainer, ITimed, Sync
                     Map<String, FormVariableAccess> formVariables = getFormVariables((IFolder) definitionFile.getParent());
                     for (FormVariableAccess access : formVariables.values()) {
                         if (access == FormVariableAccess.WRITE) {
-                            errors.add(ValidationError.createLocalizedWarning(this, "taskState.variablesInputInAsyncTask"));
+                            errors.add(ValidationError.createLocalizedWarning(this, "taskState.asyncVariablesInput"));
                             break;
                         }
                     }

@@ -23,6 +23,7 @@ public interface PropertyNames {
     public static final String PROPERTY_FORMAT = "format";
     public static final String PROPERTY_PUBLIC_VISIBILITY = "publicVisibility";
     public static final String PROPERTY_DEFAULT_VALUE = "defaultValue";
+    public static final String PROPERTY_STORE_TYPE = "storeType";
     public static final String PROPERTY_EVENT_TYPE = "eventType";
     public static final String PROPERTY_ESCALATION = "escalation";
     public static final String PROPERTY_ESCALATION_DURATION = "escalationDuration";
@@ -48,6 +49,7 @@ public interface PropertyNames {
     public static final String PROPERTY_DIRTY = "dirty";
     public static final String PROPERTY_TASK_DEADLINE = "taskDeadline";
     public static final String PROPERTY_ASYNC = "async";
+    public static final String PROPERTY_TRANSACTIONAL = "transactional";
     public static final String PROPERTY_ASYNC_COMPLETION_MODE = "asyncCompletionMode";
     public static final String PROPERTY_MULTI_TASK_SYNCHRONIZATION_MODE = "multiTaskSynchronizationMode";
     public static final String PROPERTY_MULTI_TASK_CREATION_MODE = "multiTaskCreationMode";

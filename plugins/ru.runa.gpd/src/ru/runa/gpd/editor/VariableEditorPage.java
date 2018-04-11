@@ -21,6 +21,7 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.ide.IDE;
 
@@ -49,6 +50,7 @@ import ru.runa.gpd.ui.dialog.UpdateVariableNameDialog;
 import ru.runa.gpd.ui.wizard.CompactWizardDialog;
 import ru.runa.gpd.ui.wizard.VariableWizard;
 import ru.runa.gpd.util.VariableUtils;
+import ru.runa.gpd.util.VariablesUsageXlsExporter;
 import ru.runa.gpd.util.WorkspaceOperations;
 
 import com.google.common.base.Function;
@@ -67,6 +69,7 @@ public class VariableEditorPage extends EditorPartBase<Variable> {
     private Button deleteButton;
     private Button copyButton;
     private Button moveToTypeAttributeButton;
+    private Button usageReportButton;
 
     private static Function<Variable, String> joinVariableNamesFunction = new Function<Variable, String>() {
 
@@ -108,15 +111,12 @@ public class VariableEditorPage extends EditorPartBase<Variable> {
                 case 1:
                     result = o1.getFormatLabel().compareTo(o2.getFormatLabel());
                     break;
-                case 3:
-                    result = Strings.nullToEmpty(o1.getDescription()).compareTo(Strings.nullToEmpty(o2.getDescription()));
-                    break;
                 }
                 return result;
             }
         }), new TableColumnDescription("property.name", 200, SWT.LEFT), new TableColumnDescription("Variable.property.format", 200, SWT.LEFT),
                 new TableColumnDescription("Variable.property.defaultValue", 200, SWT.LEFT, false), new TableColumnDescription(
-                        "property.description", 200, SWT.LEFT));
+                        "Variable.property.storeType", 200, SWT.LEFT));
 
         Composite buttonsBar = createActionBar(allVariablesComposite);
         addButton(buttonsBar, "button.create", new CreateVariableSelectionListener(), false);
@@ -125,11 +125,12 @@ public class VariableEditorPage extends EditorPartBase<Variable> {
         copyButton = addButton(buttonsBar, "button.copy", new CopyVariableSelectionListener(), true);
         addButton(buttonsBar, "button.paste", new PasteVariableSelectionListener(), true);
         searchButton = addButton(buttonsBar, "button.search", new SearchVariableUsageSelectionListener(), true);
+        usageReportButton = addButton(buttonsBar, "button.report", new ReportUsageSelectionListener(), true);
+        usageReportButton.setToolTipText(Localization.getString("DesignerVariableEditorPage.report.variablesUsage.tooltip"));
         moveUpButton = addButton(buttonsBar, "button.up", new MoveVariableSelectionListener(true), true);
         moveDownButton = addButton(buttonsBar, "button.down", new MoveVariableSelectionListener(false), true);
         deleteButton = addButton(buttonsBar, "button.delete", new DeleteVariableSelectionListener(), true);
         moveToTypeAttributeButton = addButton(buttonsBar, "button.move", new MoveToTypeAttributeSelectionListener(), true);
-
         updateViewer();
     }
 
@@ -148,7 +149,7 @@ public class VariableEditorPage extends EditorPartBase<Variable> {
             updateViewer();
         } else if (evt.getSource() instanceof Variable) {
             if (PropertyNames.PROPERTY_NAME.equals(type) || PropertyNames.PROPERTY_FORMAT.equals(type)
-                    || PropertyNames.PROPERTY_DEFAULT_VALUE.equals(type)) {
+                    || PropertyNames.PROPERTY_DEFAULT_VALUE.equals(type) || PropertyNames.PROPERTY_STORE_TYPE.equals(type)) {
                 tableViewer.refresh(evt.getSource());
             }
         }
@@ -166,6 +167,7 @@ public class VariableEditorPage extends EditorPartBase<Variable> {
         enableAction(renameButton, selected.size() == 1);
         enableAction(copyButton, selected.size() > 0);
         enableAction(moveToTypeAttributeButton, selected.size() == 1);
+        enableAction(usageReportButton, variables.size() > 0);
     }
 
     private void updateViewer() {
@@ -332,6 +334,7 @@ public class VariableEditorPage extends EditorPartBase<Variable> {
                 variable.setUserType(wizard.getVariable().getUserType());
                 variable.setPublicVisibility(wizard.getVariable().isPublicVisibility());
                 variable.setDefaultValue(wizard.getVariable().getDefaultValue());
+                variable.setStoreType(wizard.getVariable().getStoreType());
                 tableViewer.setSelection(selection);
             }
         }
@@ -462,6 +465,19 @@ public class VariableEditorPage extends EditorPartBase<Variable> {
         }
     }
 
+    private class ReportUsageSelectionListener extends LoggingSelectionAdapter {
+        @Override
+        protected void onSelection(SelectionEvent e) throws Exception {
+            FileDialog fd = new FileDialog(getSite().getShell(), SWT.SAVE);
+            fd.setText(Localization.getString("DesignerVariableEditorPage.report.variablesUsage.dialog.title"));
+            fd.setFileName(editor.getDefinition().getName() + ".vars-usage.xls");
+            String filePath = fd.open();
+            if (filePath != null) {
+                VariablesUsageXlsExporter.go(editor.getDefinition(), filePath);
+            }
+        }
+    }
+
     private static class VariableLabelProvider extends LabelProvider implements ITableLabelProvider {
         @Override
         public String getColumnText(Object element, int index) {
@@ -474,7 +490,7 @@ public class VariableEditorPage extends EditorPartBase<Variable> {
             case 2:
                 return Strings.nullToEmpty(variable.getDefaultValue());
             case 3:
-                return Strings.nullToEmpty(variable.getDescription());
+                return variable.getStoreType().getDescription();
             default:
                 return "unknown " + index;
             }

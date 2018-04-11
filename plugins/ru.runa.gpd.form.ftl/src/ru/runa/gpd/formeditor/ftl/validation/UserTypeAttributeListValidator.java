@@ -13,8 +13,7 @@ import ru.runa.gpd.lang.model.VariableUserType;
 import ru.runa.gpd.util.VariableUtils;
 import ru.runa.wfe.commons.TypeConversionUtil;
 
-import com.google.common.base.Function;
-import com.google.common.collect.Lists;
+import com.google.common.base.Strings;
 import com.google.common.collect.Sets;
 import com.google.common.collect.Sets.SetView;
 
@@ -26,7 +25,11 @@ public class UserTypeAttributeListValidator extends DefaultParameterTypeValidato
         Object value = component.getParameterValue(parameter);
         List<String> attributes = TypeConversionUtil.convertTo(List.class, value);
         VariableUserType userType = getUserType(formNode, component);
-        SetView<String> diff = Sets.difference(Sets.newHashSet(attributes), Sets.newHashSet(getAttributes(userType)));
+        if (userType == null) {
+            return list;
+        }
+        List<String> existingAttributes = VariableUtils.getUserTypeExpandedAttributeNames(userType);
+        SetView<String> diff = Sets.difference(Sets.newHashSet(attributes), Sets.newHashSet(existingAttributes));
         if (!diff.isEmpty()) {
             list.add(ValidationError.createError(formNode, Messages.getString("validation.componentParameterUserTypeAttribute.unknown", diff,
                     userType.getName(), component.getType().getLabel())));
@@ -34,39 +37,30 @@ public class UserTypeAttributeListValidator extends DefaultParameterTypeValidato
         return list;
     }
 
-    private List<String> getAttributes(VariableUserType userType) {
-        if (userType == null) {
-            return Lists.newArrayList();
-        }
-        return Lists.transform(userType.getAttributes(), new Function<Variable, String>() {
-
-            @Override
-            public String apply(Variable variable) {
-                return variable.getName();
-            }
-        });
-    }
-
-    private final VariableUserType getUserType(FormNode formNode, Component component) {
+    protected VariableUserType getUserType(FormNode formNode, Component component) {
         for (ComponentParameter componentParameter : component.getType().getParameters()) {
             if (componentParameter.getType() instanceof UserTypeVariableListComboParameter) {
-                String variableName = (String) component.getParameterValue(componentParameter);
-                if (variableName != null) {
-                    Variable variable = VariableUtils.getVariableByName(formNode.getProcessDefinition(), variableName);
-                    return getListVariableUserType(formNode, variable);
-                }
+                return getVariableUserType(formNode, component, componentParameter);
             }
         }
         return null;
     }
 
-    private VariableUserType getListVariableUserType(FormNode formNode, Variable variable) {
+    protected final VariableUserType getVariableUserType(FormNode formNode, Component component, ComponentParameter componentParameter) {
+        final String variableName = (String) component.getParameterValue(componentParameter);
+        if (!Strings.isNullOrEmpty(variableName)) {
+            return getVariableUserType(formNode, VariableUtils.getVariableByName(formNode.getProcessDefinition(), variableName));
+        }
+        return null;
+    }
+
+    private VariableUserType getVariableUserType(FormNode formNode, Variable variable) {
         if (variable == null) {
             return null;
         }
         String[] componentFormats = variable.getFormatComponentClassNames();
-        if (componentFormats.length != 1) {
-            return null;
+        if (componentFormats.length == 0) {
+            return variable.getUserType();
         }
         String userTypeName = componentFormats[0];
         return formNode.getProcessDefinition().getVariableUserType(userTypeName);

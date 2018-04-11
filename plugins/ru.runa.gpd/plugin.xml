@@ -12,6 +12,7 @@
    <extension-point id="wfeConnectors" name="wfeConnectors" schema="schema/wfeConnectors.exsd"/>
    <extension-point id="cssTemplates" name="form CSS templates" schema="schema/cssTemplates.exsd"/>
    <extension-point id="regulations" name="regulations" schema="schema/regulations.exsd"/>
+   <extension-point id="groovyStuff" name="Groovy stuff" schema="schema/groovyStuff.exsd"/>
 
   <extension point = "org.eclipse.ui.editors">
     <editor
@@ -35,7 +36,7 @@
           name="bot task editor">
     </editor>
   </extension> 
-  	
+    
   <extension
         name="Graph actions"
         point="org.eclipse.ui.popupMenus">
@@ -171,20 +172,6 @@
              label="%label.action.feature.compactView"
              menubarPath="features/sp1">
        </action>
-    </objectContribution>
-    <objectContribution
-          adaptable="false"
-          id="node.regulationProperties"
-          objectClass="ru.runa.gpd.lang.model.Node">
-       <filter
-             name="regulationsEnabled"
-             value="true">
-       </filter>
-        <action
-             class="ru.runa.gpd.extension.regulations.ui.EditNodeRegulationsPropertiesAction"
-             id="editNodeRegulationsProperties"
-             label="%label.action.editNodeRegulationProperties">
-        </action>
     </objectContribution>
     <objectContribution
           adaptable="false"
@@ -631,6 +618,151 @@
        </action>
     </objectContribution>
   </extension>
+ <extension
+       point="org.eclipse.ui.menus">
+    <menuContribution
+          allPopups="false"
+          locationURI="popup:org.eclipse.ui.popup.any?after=additions">
+       <command
+             commandId="ru.runa.gpd.extension.regulations.ui.EditNodeRegulationsProperties"
+             label="%label.action.editNodeRegulationProperties"
+             style="push">
+          <visibleWhen
+                checkEnabled="false">
+             <and>
+	             <test
+	                   property="ru.runa.gpd.extension.regulations.ui.regulationsEnabled"
+	                   value="true">
+	             </test>
+	             <test
+	                   property="ru.runa.gpd.extension.regulations.ui.canEditNodeRegulations">
+	             </test>
+             </and>
+          </visibleWhen>
+       </command>
+    </menuContribution>
+    <menuContribution
+          allPopups="false"
+          locationURI="popup:org.eclipse.ui.popup.any?endof=additions">
+       <menu
+             label="%label.action.exportDiagram">
+          <menu
+                label="%label.action.exportDiagram.pdf">
+             <command
+                   commandId="ru.runa.gpd.lang.action.ExportDiagramToPdf"
+                   label="%label.action.exportDiagram.pdf.a3"
+                   style="push">
+                <parameter
+                      name="paperSize"
+                      value="A3">
+                </parameter>
+             </command>
+             <command
+                   commandId="ru.runa.gpd.lang.action.ExportDiagramToPdf"
+                   label="%label.action.exportDiagram.pdf.a4"
+                   style="push">
+                <parameter
+                      name="paperSize"
+                      value="A4">
+                </parameter>
+             </command>
+             <command
+                   commandId="ru.runa.gpd.lang.action.ExportDiagramToPdf"
+                   label="%label.action.exportDiagram.pdf.a5"
+                   style="push">
+                <parameter
+                      name="paperSize"
+                      value="A5">
+                </parameter>
+             </command>
+             <command
+                   commandId="ru.runa.gpd.lang.action.ExportDiagramToPdf"
+                   label="%label.action.exportDiagram.pdf.a6"
+                   style="push">
+                <parameter
+                      name="paperSize"
+                      value="A6">
+                </parameter>
+             </command>
+          </menu>
+          <command
+                commandId="ru.runa.gpd.lang.action.ExportDiagramToPng"
+                label="%label.action.exportDiagram.png"
+                style="push">
+          </command>
+          <command
+                commandId="ru.runa.gpd.lang.action.ExportDiagramToJpg"
+                label="%label.action.exportDiagram.jpg"
+                style="push">
+          </command>
+          <visibleWhen
+                checkEnabled="false">
+             <and>
+	             <test
+	                   property="ru.runa.gpd.lang.action.exportDiagramActionEnabled"
+	                   value="true">
+	             </test>
+             </and>
+          </visibleWhen>
+       </menu>
+       <command
+             commandId="ru.runa.gpd.lang.action.ExportDiagram"
+             label="%label.action.export"
+             style="push">
+             <visibleWhen
+                   checkEnabled="false">
+                <and>
+	                <test
+	                      property="ru.runa.gpd.lang.action.exportDiagramWithScalingActionEnabled"
+	                      value="true">
+	                </test>
+                </and>
+             </visibleWhen>
+       </command>
+       <command
+             commandId="ru.runa.gpd.lang.action.PrintDiagram"
+             label="%label.action.print"
+             style="push">
+             <visibleWhen
+                   checkEnabled="false">
+                <or>
+	                <test
+	                      property="ru.runa.gpd.lang.action.exportDiagramActionEnabled"
+	                      value="true">
+	                </test>
+	                <test
+	                      property="ru.runa.gpd.lang.action.exportDiagramWithScalingActionEnabled"
+	                      value="true">
+	                </test>
+                </or>
+             </visibleWhen>
+       </command>
+    </menuContribution>
+ </extension>
+ <extension
+       point="org.eclipse.core.expressions.propertyTesters">
+    <propertyTester
+          class="ru.runa.gpd.extension.regulations.ui.EditNodeRegulationsPropertiesTester"
+          id="ru.runa.gpd.extension.regulations.ui.EditNodeRegulationsPropertiesTester"
+          namespace="ru.runa.gpd.extension.regulations.ui"
+          properties="regulationsEnabled,canEditNodeRegulations"
+          type="java.lang.Object">
+    </propertyTester>
+    <propertyTester
+          class="ru.runa.gpd.lang.action.ExportDiagramPropertyTester"
+          id="ru.runa.gpd.lang.action.ExportDiagramPropertyTester"
+          namespace="ru.runa.gpd.lang.action"
+          properties="exportDiagramActionEnabled"
+          type="java.lang.Object">
+    </propertyTester>
+    <propertyTester
+          class="ru.runa.gpd.lang.action.ExportDiagramWithScalingPropertyTester"
+          id="ru.runa.gpd.lang.action.ExportDiagramWithScalingPropertyTester"
+          namespace="ru.runa.gpd.lang.action"
+          properties="exportDiagramWithScalingActionEnabled"
+          type="java.lang.Object">
+    </propertyTester>
+ </extension>
   
    <extension
          point="org.eclipse.ui.newWizards">
@@ -664,7 +796,7 @@
          name="commons"
          point="ru.runa.gpd.elements">
       <element
-      		type="connection"
+          type="connection"
             model="ru.runa.gpd.lang.model.Transition"
             jpdl="transition"
             bpmn="sequenceFlow"
@@ -702,36 +834,39 @@
          </graphiti>
       </element>
       <element
-      		bpmn="startTextDecoration"
-      		label="%label.element.textAnnotation"
-      		model="ru.runa.gpd.lang.model.bpmn.StartTextDecoration"
-      		type="artifact">
-      	<graphiti
-      		add="ru.runa.gpd.editor.graphiti.add.AddStartTextDecorationFeature"
-      		create="ru.runa.gpd.editor.graphiti.create.CreateElementFeature"
-      		fixedSize="true"
-      		height="3"
-      		width="8">
-      	</graphiti>
+            bpmn="startTextDecoration"
+            hasPreferencePage="false"
+            label="%label.element.textAnnotation"
+            model="ru.runa.gpd.lang.model.bpmn.StartTextDecoration"
+            type="artifact">
+        <graphiti
+          add="ru.runa.gpd.editor.graphiti.add.AddStartTextDecorationFeature"
+          create="ru.runa.gpd.editor.graphiti.create.CreateElementFeature"
+          fixedSize="true"
+          height="3"
+          width="8">
+        </graphiti>
       </element>
       <element
-      		bpmn="endTextDecoration"
-      		label="%label.element.textAnnotation"
-      		model="ru.runa.gpd.lang.model.bpmn.EndTextDecoration"
-      		type="artifact">
-      	<graphiti
-      		add="ru.runa.gpd.editor.graphiti.add.AddEndTextDecorationFeature"
-      		create="ru.runa.gpd.editor.graphiti.create.CreateElementFeature"
-      		fixedSize="true"
-      		height="3"
-      		width="8">
-      	</graphiti>
+            bpmn="endTextDecoration"
+            hasPreferencePage="false"
+            label="%label.element.textAnnotation"
+            model="ru.runa.gpd.lang.model.bpmn.EndTextDecoration"
+            type="artifact">
+        <graphiti
+          add="ru.runa.gpd.editor.graphiti.add.AddEndTextDecorationFeature"
+          create="ru.runa.gpd.editor.graphiti.create.CreateElementFeature"
+          fixedSize="true"
+          height="3"
+          width="8">
+        </graphiti>
       </element>
       <element
             bpmn="lane"
+            hasPreferencePage="true"
+            icon="swimlane.png"
             jpdl="swimlane"
             label="%default.swimlane.name"
-            icon="swimlane.png" 
             model="ru.runa.gpd.lang.model.Swimlane"
             type="artifact">
          <gef 
@@ -748,7 +883,7 @@
          </graphiti>
       </element>
       <element
-      		type="node"
+          type="node"
             model="ru.runa.gpd.lang.model.StartState"
             jpdl="start-state"
             bpmn="startEvent"
@@ -769,7 +904,7 @@
          </graphiti>
       </element>
       <element
-      		type="node"
+          type="node"
             model="ru.runa.gpd.lang.model.TaskState"
             jpdl="task-node"
             bpmn="userTask"
@@ -832,7 +967,7 @@
       </element>
       <element
             bpmn="multiTask"
- 	    type="node"
+      type="node"
             model="ru.runa.gpd.lang.model.MultiTaskState"
             jpdl="multi-task-node"
             icon="multitaskstate.png"
@@ -935,12 +1070,13 @@
          </graphiti>
       </element>
       <element
-      		type="node"
-            model="ru.runa.gpd.lang.model.ActionImpl"
-            jpdl="action"
             bpmn="actionHandler"
+            hasPreferencePage="false"
             icon="action.png"
-            label="%label.element.action">
+            jpdl="action"
+            label="%label.element.action"
+            model="ru.runa.gpd.lang.model.ActionImpl"
+            type="artifact">
          <gef 
             figure="ru.runa.gpd.editor.gef.figure.ActionFigure"
             graphicalEditPart="ru.runa.gpd.editor.gef.part.graph.ActionGraphicalEditPart"
@@ -957,6 +1093,7 @@
       </element>
       <element
             bpmn="ioSpecification"
+            hasPreferencePage="false"
             jpdl="variable"
             label="%default.variable.name"
             model="ru.runa.gpd.lang.model.Variable"
@@ -967,6 +1104,7 @@
       </element>
       <element
             bpmn="process"
+            hasPreferencePage="false"
             jpdl="process-definition"
             label="process definition"
             model="ru.runa.gpd.lang.model.ProcessDefinition"
@@ -994,8 +1132,8 @@
                create="ru.runa.gpd.editor.graphiti.create.CreateElementFeature"
                fixedSize="false"
                height="10"
-               layout="ru.runa.gpd.editor.graphiti.layout.LayoutStateNodeFeature"
-               update="ru.runa.gpd.editor.graphiti.update.UpdateStateNodeFeature"
+               layout="ru.runa.gpd.editor.graphiti.layout.LayoutSubprocessNodeFeature"
+               update="ru.runa.gpd.editor.graphiti.update.UpdateSubprocessNodeFeature"
                width="15">
          </graphiti>
       </element>
@@ -1093,10 +1231,11 @@
          </graphiti>
       </element>
       <element
-      		type="deprecated"
+            hasPreferencePage="false"
+            jpdl="node"
             label="action node (deprecated)"
             model="ru.runa.gpd.lang.model.jpdl.ActionNode"
-            jpdl="node">
+            type="deprecated">
          <gef
                figure="ru.runa.gpd.editor.gef.figure.ActionNodeFigure"
                graphicalEditPart="ru.runa.gpd.editor.gef.part.graph.ActionNodeGraphicalEditPart"
@@ -1125,7 +1264,7 @@
          </graphiti>
       </element>
       <element
-      		type="node"
+          type="node"
             model="ru.runa.gpd.lang.model.EndState"
             jpdl="end-state"
             bpmn="endEvent"
@@ -1918,14 +2057,14 @@
       </element>
    </extension>
    <extension
-    	id="FileSearchPage"
+      id="FileSearchPage"
         point="org.eclipse.search.searchResultViewPages">
-		<viewPage
-			id="ru.runa.gpd.search.SearchPage"
-			searchResultClass="ru.runa.gpd.search.SearchResult"
-			class="ru.runa.gpd.search.SearchPage">
-		</viewPage>
-	</extension>
+    <viewPage
+      id="ru.runa.gpd.search.SearchPage"
+      searchResultClass="ru.runa.gpd.search.SearchResult"
+      class="ru.runa.gpd.search.SearchPage">
+    </viewPage>
+  </extension>
     <extension
           point="ru.runa.gpd.validators">
        <validator
@@ -2162,7 +2301,7 @@
              name="%pref.form">
        </page>
        <page
-			 class="ru.runa.gpd.settings.EmptyPreferencePage"
+       class="ru.runa.gpd.settings.EmptyPreferencePage"
              id="gpd.pref.task.escalation"
              name="%pref.task.escalation">
        </page>
@@ -2190,7 +2329,7 @@
              name="%pref.connection.ldap">
        </page>
        <page
-			 class="ru.runa.gpd.settings.EmptyPreferencePage"
+       class="ru.runa.gpd.settings.EmptyPreferencePage"
              id="gpd.pref.extensions"
              name="%pref.extensions">
        </page>
@@ -2201,7 +2340,7 @@
              name="%pref.extensions.localization">
        </page>
        <page
-			 class="ru.runa.gpd.settings.EmptyPreferencePage"
+       class="ru.runa.gpd.settings.LanguagePreferencePage"
              id="gpd.pref.language"
              name="%pref.language">
        </page>
@@ -2213,7 +2352,7 @@
        </page>
        <page
              category="gpd.pref.language"
-             class="ru.runa.gpd.settings.EmptyPreferencePage"
+             class="ru.runa.gpd.settings.BpmnPreferencePage"
              id="gpd.pref.language.bpmn"
              name="%pref.language.bpmn">
        </page>
@@ -2309,30 +2448,30 @@
                toolbarPath="normal/processes"
                tooltip="%tooltip.menu.newProject"/>
          <action
-         		class="ru.runa.gpd.ui.action.NewBotTaskAction"
-         		icon="icons/bot_task.gif"
-         		id="ru.runa.gpd.ui.action.newBotTask"
-         		label="%label.menu.newBotTask"
-         		menubarPath="file/newFile/common"
-         		style="push"
+            class="ru.runa.gpd.ui.action.NewBotTaskAction"
+            icon="icons/bot_task.gif"
+            id="ru.runa.gpd.ui.action.newBotTask"
+            label="%label.menu.newBotTask"
+            menubarPath="file/newFile/common"
+            style="push"
                 toolbarPath="normal/bots"
                 tooltip="%tooltip.menu.newBotTask"/>
          <action
-         		class="ru.runa.gpd.ui.action.NewBotAction"
-         		icon="icons/add_bot.gif"
-         		id="ru.runa.gpd.ui.action.newBot"
-         		label="%label.menu.newBot"
-         		menubarPath="file/newFile/common"
-         		style="push"
+            class="ru.runa.gpd.ui.action.NewBotAction"
+            icon="icons/add_bot.gif"
+            id="ru.runa.gpd.ui.action.newBot"
+            label="%label.menu.newBot"
+            menubarPath="file/newFile/common"
+            style="push"
                 toolbarPath="normal/bots"
                 tooltip="%tooltip.menu.newBot"/>
          <action
-         		class="ru.runa.gpd.ui.action.NewBotStationAction"
-         		icon="icons/add_bot_station.gif"
-         		id="ru.runa.gpd.ui.action.newBotStation"
-         		label="%label.menu.newBotStation"
-         		menubarPath="file/newFile/common"
-         		style="push"
+            class="ru.runa.gpd.ui.action.NewBotStationAction"
+            icon="icons/add_bot_station.gif"
+            id="ru.runa.gpd.ui.action.newBotStation"
+            label="%label.menu.newBotStation"
+            menubarPath="file/newFile/common"
+            style="push"
                 toolbarPath="normal/bots"
                 tooltip="%tooltip.menu.newBotStation"/>
          <action
@@ -2657,6 +2796,41 @@
             id="ru.runa.gpd.commands.delete"
             name="ru.runa.gpd.commands.delete">
       </command>
+      <command
+            defaultHandler="ru.runa.gpd.extension.regulations.ui.EditNodeRegulationsPropertiesHandler"
+            id="ru.runa.gpd.extension.regulations.ui.EditNodeRegulationsProperties"
+            name="ru.runa.gpd.extension.regulations.ui.EditNodeRegulationsProperties">
+      </command>
+      <command
+            defaultHandler="ru.runa.gpd.lang.action.ExportDiagramToPdfHandler"
+            id="ru.runa.gpd.lang.action.ExportDiagramToPdf"
+            name="Export Diagram to PDF">
+      <commandParameter
+            id="paperSize"
+            name="paperSize"
+            optional="false">
+      </commandParameter>
+    </command>
+    <command
+          defaultHandler="ru.runa.gpd.lang.action.ExportDiagramToPngHandler"
+          id="ru.runa.gpd.lang.action.ExportDiagramToPng"
+          name="Export Diagram to PNG">
+    </command>
+    <command
+          defaultHandler="ru.runa.gpd.lang.action.ExportDiagramToJpgHandler"
+          id="ru.runa.gpd.lang.action.ExportDiagramToJpg"
+          name="Export Diagram to JPG">
+    </command>
+    <command
+          defaultHandler="ru.runa.gpd.lang.action.ExportDiagramHandler"
+          id="ru.runa.gpd.lang.action.ExportDiagram"
+          name="Export Diagram">
+    </command>
+    <command
+          defaultHandler="ru.runa.gpd.lang.action.PrintDiagramHandler"
+          id="ru.runa.gpd.lang.action.PrintDiagram"
+          name="Print Diagram">
+    </command>
    </extension>
    <extension
          point="org.eclipse.ui.contexts">
@@ -2783,11 +2957,11 @@
             label="%ru.runa.wfe.var.format.ProcessIdFormat">
       </format>
    </extension>
-	<extension id="botStationNature" name="specific nature for bot station project" point="org.eclipse.core.resources.natures">
-	      <runtime>
-	         <run class="ru.runa.gpd.BotStationNature"></run>
-	      </runtime>
-	</extension>
+  <extension id="botStationNature" name="specific nature for bot station project" point="org.eclipse.core.resources.natures">
+        <runtime>
+           <run class="ru.runa.gpd.BotStationNature"></run>
+        </runtime>
+  </extension>
  <extension
        id="processNature"
        name="specific nature for process project (used since 4.1.0)"
@@ -2822,5 +2996,70 @@
        </enablement>
     </statusContextViewer>
  </extension>
-
+ <extension
+         point="ru.runa.gpd.groovyStuff">
+      <type
+            label="java.util.Date">
+      </type>
+      <type
+            label="java.util.ArrayList">
+      </type>
+      <type
+            label="java.util.HashMap">
+      </type>
+      <type
+            label="ru.runa.wfe.var.UserTypeMap">
+      </type>
+      <method
+            label="java.lang.Math.random()">
+      </method>
+      <constant
+            label="null">
+      </constant>
+      <constant
+            label="true">
+            Boolean.TRUE
+      </constant>
+      <constant
+            label="false">
+            Boolean.FALSE
+      </constant>
+      <constant
+            label="java.lang.Math.PI">
+      </constant>
+      <statement
+            label="if">
+if ( CONDITION ) {
+}
+      </statement>
+      <statement
+            label="if/else">
+if ( CONDITION ) {
+} else {
+}
+      </statement>
+      <statement
+            label="if/else if/else">
+if ( CONDITION1 ) {
+} else if ( CONDITION2 ) {
+} else {
+}
+      </statement>
+      <statement
+            label="switch">
+switch ( VALUE ) {
+case CONDITION1 :
+   break
+case CONDITION2 :
+   break
+default:
+}
+      </statement>
+      <statement
+            label="%ru.runa.gpd.groovyStuff.setListVariableAttributeValue">
+for (java.util.Map map : LIST_VARIABLE) {
+   map.put("ATTRIBUTE_NAME", VALUE);
+}      
+      </statement>
+ </extension>
 </plugin>
