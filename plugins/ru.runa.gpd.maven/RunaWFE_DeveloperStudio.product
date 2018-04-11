@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?pde version="3.5"?>
 
-<product name="runa-gpd" uid="RunaWFE_DeveloperStudio" id="ru.runa.gpd.app.product" application="ru.runa.gpd.application" version="4.3.0.qualifier" useFeatures="false" includeLaunchers="true">
+<product name="runa-gpd" uid="RunaWFE_DeveloperStudio" id="ru.runa.gpd.app.product" application="ru.runa.gpd.application" version="4.3.0.qualifier" useFeatures="true" includeLaunchers="true">
 
    <aboutInfo>
       <image path="/ru.runa.gpd.app/icons/logo/about.gif"/>
@@ -238,6 +238,12 @@
       <plugin id="ru.runa.gpd.form.quick"/>
       <plugin id="ru.runa.gpd.office"/>
    </plugins>
+
+   <features>
+      <feature id="ru.runa.gpd.feature" version="4.3.0.qualifier"/>
+      <feature id="org.eclipse.rcp" version="4.7.3.v20180301-0715"/>
+      <feature id="org.eclipse.equinox.p2.user.ui" version="2.3.2.v20171108-1343"/>
+   </features>
 
    <configurations>
       <plugin id="org.eclipse.core.runtime" autoStart="true" startLevel="4" />

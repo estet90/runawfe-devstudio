@@ -738,6 +738,13 @@
              </visibleWhen>
        </command>
     </menuContribution>
+    <menuContribution
+            locationURI="menu:org.eclipse.ui.main.menu">
+        <menu
+            id="help"
+            label="%label.menu.help">
+        </menu>
+    </menuContribution>
  </extension>
  <extension
        point="org.eclipse.core.expressions.propertyTesters">
