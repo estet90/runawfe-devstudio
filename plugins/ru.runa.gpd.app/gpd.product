@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?pde version="3.5"?>
 
-<product name="RunaWFE Developer Studio" uid="product" id="ru.runa.gpd.app.product" application="ru.runa.gpd.application" version="4.3.0" useFeatures="false" includeLaunchers="true">
+<product name="RunaWFE Developer Studio" uid="product" id="ru.runa.gpd.app.product" application="ru.runa.gpd.application" version="4.3.0" useFeatures="true" includeLaunchers="true">
 
    <aboutInfo>
       <text>
@@ -35,10 +35,8 @@
       </win>
    </launcher>
 
-
    <vm>
    </vm>
-
 
    <plugins>
       <plugin id="com.ibm.icu"/>
@@ -264,6 +262,19 @@
       <plugin id="ru.runa.gpd.xpdl"/>
    </plugins>
 
+   <features>
+      <feature id="ru.runa.gpd.feature" version="4.3.0.qualifier"/>
+      <feature id="org.eclipse.rcp" version="4.7.3.v20180301-0715"/>
+      <feature id="org.eclipse.equinox.p2.user.ui" version="2.3.2.v20171108-1343"/>
+   </features>
+
+   <configurations>
+      <plugin id="org.eclipse.core.runtime" autoStart="true" startLevel="4" />
+      <plugin id="org.eclipse.equinox.common" autoStart="true" startLevel="2" />
+      <plugin id="org.eclipse.equinox.ds" autoStart="true" startLevel="2" />
+      <plugin id="org.eclipse.equinox.event" autoStart="true" startLevel="2" />
+      <plugin id="org.eclipse.osgi" autoStart="true" startLevel="0" />
+   </configurations>
 
    <preferencesInfo>
       <targetfile overwrite="false"/>
